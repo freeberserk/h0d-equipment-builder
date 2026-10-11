@@ -1,0 +1,15 @@
+H0D Equipment Builder v0.1.0
+
+Manifest URL :
+https://github.com/freeberserk/h0d-equipment-builder/releases/latest/download/module.json
+
+Asset attendu dans chaque release :
+h0d-equipment-builder.zip
+
+Prérequis :
+- Foundry VTT 14
+- Custom System Builder 6.0.2+
+- H0D Template Manager 0.3.0+
+
+Lancement en jeu :
+macro automatique « H0D — Générateur équipement ».

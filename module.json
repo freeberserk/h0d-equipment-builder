@@ -1,0 +1,41 @@
+{
+  "id": "h0d-equipment-builder",
+  "title": "H0D Equipment Builder",
+  "description": "Générateur d’équipement H0D pour Foundry VTT : objets précis, stocks de vendeurs/caravanes et catalogue de validation des templates.",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "JDR Zero Dawn"
+    }
+  ],
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "custom-system-builder",
+        "type": "system",
+        "compatibility": {
+          "minimum": "6.0.2"
+        }
+      }
+    ],
+    "modules": [
+      {
+        "id": "h0d-template-manager",
+        "type": "module",
+        "compatibility": {
+          "minimum": "0.3.0"
+        }
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/h0d-equipment-builder.js"
+  ],
+  "url": "https://github.com/freeberserk/h0d-equipment-builder",
+  "manifest": "https://github.com/freeberserk/h0d-equipment-builder/releases/latest/download/module.json",
+  "download": "https://github.com/freeberserk/h0d-equipment-builder/releases/latest/download/h0d-equipment-builder.zip"
+}
