@@ -1649,8 +1649,8 @@ async function openBuilder() {
         <div class="form-group">
           <label>Si la référence existe déjà</label>
           <select name="existingMode">
+            <option value="skip">Créer si absent / conserver si présent</option>
             <option value="update">Mettre à jour (conserve l’image)</option>
-            <option value="skip">Ignorer</option>
             <option value="replace">Recréer</option>
           </select>
         </div>
