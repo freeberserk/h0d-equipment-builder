@@ -1,5 +1,5 @@
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.1.0";
+const MODULE_VERSION = "0.1.1";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -1619,7 +1619,7 @@ async function openBuilder() {
     resource:Array.from(CATALOG.values()).filter(x=>x.kind==="resource").length
   };
 
-  const result = await foundry.applications.api.DialogV2.input({
+  await foundry.applications.api.DialogV2.wait({
     window:{title:`H0D Equipment Builder v${MODULE_VERSION}`},
     content:`
       <div class="h0d-equipment-builder" style="display:flex;flex-direction:column;gap:10px;">
@@ -1687,41 +1687,70 @@ async function openBuilder() {
           v0.1.0 : catalogue de départ basé uniquement sur l’équipement déjà validé des profils de factions Menace 1.
           Les paliers d’amélioration, prototypes et équipements ECHO seront ajoutés plus tard.
         </p>
+        <button type="button" data-h0d-run><i class="fa-solid fa-screwdriver-wrench"></i> Générer</button>
+        <p data-h0d-status role="status" aria-live="polite" style="min-height:1.2em;margin:0;opacity:.8">Tu peux créer plusieurs équipements sans fermer cette fenêtre.</p>
       </div>`,
-    ok:{label:"Générer", icon:"fa-solid fa-screwdriver-wrench"}
-  });
-
-  if (!result) return;
-
-  try {
-    if (result.buildMode === "single") {
-      if (!result.catalogKey) return notify("warn","Choisis une référence d’équipement.");
-      const item = await buildReferenceItem(String(result.catalogKey), {mode:String(result.existingMode || "update")});
-      item.sheet?.render(true);
-      notify("info",`Équipement prêt : ${item.name}`);
-      return;
-    }
-
-    if (result.buildMode === "stock") {
-      const stock = await buildStock({
-        origin:String(result.origin || "caravanes-libres"),
-        kind:String(result.kind || "*"),
-        count:Number(result.count || 6),
-        label:String(result.stockLabel || "")
+    buttons:[{action:"close",label:"Fermer",icon:"fa-solid fa-xmark"}],
+    rejectClose:false,
+    render:(_event,dialog)=>{
+      const root=dialog.element?.querySelector(".h0d-equipment-builder");
+      const button=root?.querySelector("[data-h0d-run]");
+      const status=root?.querySelector("[data-h0d-status]");
+      if(!button||!status||button.dataset.ready==="1")return;
+      button.dataset.ready="1";
+      let busy=false;
+      button.addEventListener("click",async()=>{
+        if(busy)return;
+        const form=dialog.element?.querySelector("form");
+        if(!form)return;
+        const v=Object.fromEntries(new FormData(form).entries());
+        busy=true;button.disabled=true;button.textContent="Génération en cours…";
+        status.textContent="Opération en cours…";
+        try{
+          if(v.buildMode==="single"){
+            if(!v.catalogKey){status.textContent="Choisis une référence d'équipement.";return;}
+            const mode=String(v.existingMode||"skip");
+            if(mode==="update"||mode==="replace"){
+              const confirmed=await foundry.applications.api.DialogV2.confirm({
+                window:{title:"H0D Équipement — Confirmation"},
+                content:"<p>Cette action modifie ou recrée une référence d'équipement existante. Confirmer ?</p>",
+                yes:{label:"Confirmer",icon:"fa-solid fa-triangle-exclamation"},no:{label:"Annuler"}
+              });
+              if(!confirmed){status.textContent="Modification annulée.";return;}
+            }
+            const item=await buildReferenceItem(String(v.catalogKey),{mode});
+            item?.sheet?.render(true);
+            status.textContent=item?"Équipement prêt : "+item.name+". Choisis le suivant.":"Action terminée.";
+            if(item)notify("info","Équipement prêt : "+item.name);
+          }else if(v.buildMode==="stock"){
+            const stock=await buildStock({
+              origin:String(v.origin||"caravanes-libres"),kind:String(v.kind||"*"),
+              count:Number(v.count||6),label:String(v.stockLabel||"")
+            });
+            status.textContent="Stock créé : "+stock.items.length+" équipements. Tu peux continuer.";
+            notify("info","Stock créé : "+stock.items.length+" équipement(s).");
+          }else if(v.buildMode==="validation"){
+            const confirmed=await foundry.applications.api.DialogV2.confirm({
+              window:{title:"H0D — Catalogue de validation"},
+              content:"<p>Construire / actualiser le catalogue de validation d'équipement ?</p>",
+              yes:{label:"Confirmer"},no:{label:"Annuler"}
+            });
+            if(!confirmed){status.textContent="Opération annulée.";return;}
+            const report=await buildValidationCatalog();
+            status.textContent="Catalogue : "+report.total+" références ("+report.created+" créées, "+report.updated+" actualisées).";
+            notify("info",status.textContent);
+          }else status.textContent="Choisis un mode de génération valide.";
+        }catch(err){
+          console.error(MODULE_ID+" | génération persistante",err);
+          status.textContent="Erreur : "+(err?.message??err);
+          notify("error","H0D Equipment Builder : "+(err?.message??err));
+        }finally{
+          busy=false;button.disabled=false;
+          button.innerHTML='<i class="fa-solid fa-screwdriver-wrench"></i> Générer';
+        }
       });
-      notify("info",`Stock créé : ${stock.items.length} équipement(s).`);
-      return;
     }
-
-    if (result.buildMode === "validation") {
-      const report = await buildValidationCatalog();
-      notify("info",`Catalogue de validation : ${report.total} références (${report.created} créées, ${report.updated} mises à jour).`);
-      return;
-    }
-  } catch (err) {
-    console.error(`${MODULE_ID} | génération`, err);
-    notify("error",`H0D Equipment Builder : ${err?.message ?? err}`);
-  }
+  });
 }
 
 async function ensureLauncherMacro() {
