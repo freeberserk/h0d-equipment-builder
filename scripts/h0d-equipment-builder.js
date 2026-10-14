@@ -1,5 +1,5 @@
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.1.0";
+const MODULE_VERSION = "0.1.1";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
