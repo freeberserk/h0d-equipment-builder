@@ -1608,6 +1608,49 @@ function originOptions() {
   return html;
 }
 
+/** Garde la fenêtre ouverte entre deux générations, tout en sérialisant les clics. */
+async function h0dPersistentDialog(options,run) {
+  const Dialog=foundry.applications.api.DialogV2;
+  await Dialog.wait({
+    window:options.window,
+    content:options.content+
+      '<div class="h0d-batch-controls" style="margin-top:10px;display:flex;gap:8px;align-items:center;">'+
+      '<button type="button" data-h0d-batch-run><i class="fa-solid fa-gears"></i> Exécuter</button>'+
+      '<small data-h0d-batch-status aria-live="polite">Prêt à générer plusieurs éléments.</small></div>',
+    buttons:[{action:"close",label:"Fermer",icon:"fa-solid fa-xmark"}],
+    rejectClose:false,
+    render:(_event,dialog)=>{
+      const root=dialog.element,button=root?.querySelector("[data-h0d-batch-run]"),
+        status=root?.querySelector("[data-h0d-batch-status]");
+      if(!button||!status||button.dataset.bound==="yes")return;
+      button.dataset.bound="yes";
+      let busy=false;
+      button.addEventListener("click",async()=>{
+        if(busy)return;
+        const form=root.querySelector("form");
+        if(!form)return;
+        const input=Object.fromEntries(new FormData(form).entries());
+        busy=true;button.disabled=true;
+        const close=root.querySelector('[data-action="close"]');
+        if(close)close.disabled=true;
+        status.textContent="Opération en cours…";
+        try{
+          await run(input);
+          status.textContent="Terminé. Tu peux générer un autre élément.";
+        }catch(err){
+          console.error("H0D | génération",err);
+          status.textContent="Erreur : "+(err?.message??err);
+          ui.notifications?.error("H0D : "+(err?.message??err));
+        }finally{
+          busy=false;button.disabled=false;
+          if(close)close.disabled=false;
+        }
+      });
+    }
+  });
+}
+
+
 async function openBuilder() {
   if (!game.user?.isGM) return notify("warn","H0D Equipment Builder est réservé au MJ.");
 
@@ -1619,7 +1662,7 @@ async function openBuilder() {
     resource:Array.from(CATALOG.values()).filter(x=>x.kind==="resource").length
   };
 
-  const result = await foundry.applications.api.DialogV2.input({
+  await h0dPersistentDialog({
     window:{title:`H0D Equipment Builder v${MODULE_VERSION}`},
     content:`
       <div class="h0d-equipment-builder" style="display:flex;flex-direction:column;gap:10px;">
@@ -1688,10 +1731,7 @@ async function openBuilder() {
           Les paliers d’amélioration, prototypes et équipements ECHO seront ajoutés plus tard.
         </p>
       </div>`,
-    ok:{label:"Générer", icon:"fa-solid fa-screwdriver-wrench"}
-  });
-
-  if (!result) return;
+  }, async result => {
 
   try {
     if (result.buildMode === "single") {
@@ -1722,6 +1762,7 @@ async function openBuilder() {
     console.error(`${MODULE_ID} | génération`, err);
     notify("error",`H0D Equipment Builder : ${err?.message ?? err}`);
   }
+  });
 }
 
 async function ensureLauncherMacro() {
