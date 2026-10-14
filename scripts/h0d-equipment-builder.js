@@ -1692,8 +1692,8 @@ async function openBuilder() {
         <div class="form-group">
           <label>Si la référence existe déjà</label>
           <select name="existingMode">
+            <option value="skip">Créer uniquement si absent / conserver si présent</option>
             <option value="update">Mettre à jour (conserve l’image)</option>
-            <option value="skip">Ignorer</option>
             <option value="replace">Recréer</option>
           </select>
         </div>
@@ -1733,10 +1733,19 @@ async function openBuilder() {
       </div>`,
   }, async result => {
 
+
+  if(result.buildMode==="single" && (result.existingMode==="update"||result.existingMode==="replace")){
+    const approved=await foundry.applications.api.DialogV2.confirm({
+      window:{title:"H0D — Confirmer la modification"},
+      content:"<p>Cette action peut remplacer des données et équipements générés, et effacer des personnalisations du monde.</p><p>Continuer ?</p>",
+      yes:{label:"Confirmer"},no:{label:"Annuler"}
+    });
+    if(!approved)return;
+  }
   try {
     if (result.buildMode === "single") {
       if (!result.catalogKey) return notify("warn","Choisis une référence d’équipement.");
-      const item = await buildReferenceItem(String(result.catalogKey), {mode:String(result.existingMode || "update")});
+      const item = await buildReferenceItem(String(result.catalogKey), {mode:String(result.existingMode || "skip")});
       item.sheet?.render(true);
       notify("info",`Équipement prêt : ${item.name}`);
       return;
