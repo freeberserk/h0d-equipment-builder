@@ -1,3 +1,9 @@
+## 0.1.1 — Équipement en série
+
+- Fenêtre persistante ; plusieurs objets, ressources, stocks et catalogues dans une session.
+- Sélections conservées, retour de succès/erreur dans le dialogue, verrou pendant traitement.
+- Par défaut, les références existantes sont conservées ; toute modification destructrice demande confirmation.
+
 # Changelog
 
 ## 0.1.0
