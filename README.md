@@ -1,6 +1,10 @@
 # H0D Equipment Builder
 
-## v0.1.0 — socle équipement
+## v0.1.1 — Génération répétée sans fermer le Builder
+
+Le Builder conserve sa fenêtre, ses paramètres et le résultat de l'opération. On peut créer plusieurs équipements ou stocks, puis fermer volontairement. Par défaut un équipement déjà présent n'est pas écrasé ; la mise à jour et la recréation demandent confirmation. Le catalogue de validation demande également confirmation.
+
+## v0.1.1 — génération répétée équipement
 
 Premier module dédié à la génération d’équipement pour la campagne H0D.
 
