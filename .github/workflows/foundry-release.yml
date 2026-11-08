@@ -14,6 +14,7 @@ jobs:
         run: |
           node --check scripts/h0d-equipment-builder.js
           node tests/batch-dialog.mjs
+          node tests/catalogue-authority.mjs
           python3 -m json.tool module.json > /dev/null
       - name: Package and publish release
         env:

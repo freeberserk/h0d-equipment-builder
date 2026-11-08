@@ -1,5 +1,5 @@
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.1.1";
+const MODULE_VERSION = "0.2.0";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -1348,13 +1348,44 @@ async function ensureItemFolder(name, parent=null) {
   return folder;
 }
 
-function getDefinition(key) {
-  return CATALOG.get(key) ? clone(CATALOG.get(key)) : null;
+/** H0D Catalogue est l'autorité ; anciens objets sans clé commune restent marqués legacy. */
+function h0dCatalogueApi(){
+  const mod=game.modules?.get("h0d-catalogue");
+  const api=mod?.active?(mod.api??game.h0dCatalogue):null;
+  return api?.getStatus?.()?.ready?api:null;
+}
+function effectiveDefinitions({includeLegacy=true,includeRestricted=true}={}){
+  const api=h0dCatalogueApi();
+  if(!api)return Array.from(CATALOG.values()).map(clone);
+  const canonical=api.getDefinitions({includeRestricted});
+  if(!includeLegacy)return canonical;
+  const keys=new Set(canonical.map(d=>d.key));
+  return [...canonical,...Array.from(CATALOG.values()).filter(d=>!keys.has(d.key)&&!api.getDefinition(d.key))
+    .map(d=>({...clone(d),legacyUnmapped:true}))];
+}
+function stockEligibleDefinitions(){
+  const api=h0dCatalogueApi();
+  return api?(api.getStockEligibleDefinitions?.()??api.getDefinitions({includeRestricted:false}).filter(d=>
+    d.catalogue?.visible_au_stock_standard===true&&d.catalogue?.generable_stock_aleatoire!==false&&d.catalogue?.pret_pour_builder!==false)):
+    Array.from(CATALOG.values()).filter(d=>d.catalogue?.visible_au_stock_standard!==false
+      &&d.catalogue?.pret_pour_builder!==false&&d.catalogue?.generable_stock_aleatoire!==false).map(clone);
+}
+function catalogueBridgeStatus(){
+  const api=h0dCatalogueApi();
+  const legacy=api?effectiveDefinitions().filter(d=>d.legacyUnmapped).map(d=>({key:d.key,name:d.name,kind:d.kind})):
+    Array.from(CATALOG.values()).map(d=>({key:d.key,name:d.name,kind:d.kind}));
+  return {ready:!!api,canonical:api?.getStatus?.().references??0,legacyUnmapped:legacy,
+    stockEligible:stockEligibleDefinitions().length,source:api?"h0d-catalogue":"legacy-fallback"};
 }
 
-function getReferenceCatalog() {
-  return Array.from(CATALOG.values()).map(clone);
+function getDefinition(key) {
+  const canonical=h0dCatalogueApi()?.getDefinition(key);
+  if(canonical)return canonical;
+  const local=CATALOG.get(key);
+  return local?clone(local):null;
 }
+function getReferenceCatalog(){return effectiveDefinitions();}
+
 
 function getValidationReferences() {
   return getReferenceCatalog().map(d => ({
@@ -1377,8 +1408,8 @@ function registerDefinition(def) {
   value.tier ??= 1;
   value.source ??= "Extension externe";
   value.props ??= {};
-  CATALOG.set(value.key, value);
-  return clone(value);
+  CATALOG.set(value.key,value);
+  return getDefinition(value.key);
 }
 
 function registerDefinitions(defs=[]) {
@@ -1432,8 +1463,9 @@ async function buildReferenceItem(key, {mode="update"}={}) {
   const state = templateState();
   if (!state.ok) throw new Error(state.message);
 
-  const def = CATALOG.get(key);
+  const def = getDefinition(key);
   if (!def) throw new Error(`Équipement inconnu : ${key}`);
+  if(def.catalogue?.pret_pour_builder===false)throw new Error(`Plan non finalisé dans H0D Catalogue : ${key}`);
 
   const root = await ensureItemFolder(ROOT_FOLDER);
   const kindFolder = await ensureItemFolder(KIND_LABELS[def.kind] || "Autres", root.id);
@@ -1479,7 +1511,7 @@ function shuffle(values) {
 }
 
 function selectStockCandidates({origin="*", kind="*", count=6}={}) {
-  let candidates = Array.from(CATALOG.values()).filter(d =>
+  let candidates = stockEligibleDefinitions().filter(d =>
     (origin === "*" || d.originKey === origin) &&
     (kind === "*" || d.kind === kind)
   );
@@ -1549,7 +1581,8 @@ async function buildValidationCatalog() {
   const root = await ensureItemFolder(REFERENCE_FOLDER);
   let created=0, updated=0;
 
-  for (const def of CATALOG.values()) {
+  const candidates=stockEligibleDefinitions();
+  for (const def of candidates) {
     let item = Array.from(game.items ?? []).find(i =>
       i.folder?.id === root.id &&
       i.getFlag(MODULE_ID, "validationReference") === true &&
@@ -1575,12 +1608,12 @@ async function buildValidationCatalog() {
     });
   }
 
-  return {folder:root, created, updated, total:CATALOG.size};
+  return {folder:root, created, updated, total:candidates.length};
 }
 
 function catalogOptions() {
   const groups = new Map();
-  for (const def of CATALOG.values()) {
+  for (const def of effectiveDefinitions().filter(d=>d.catalogue?.pret_pour_builder!==false)) {
     const group = `${def.origin} — ${def.kindLabel || KIND_LABELS[def.kind] || def.kind}`;
     if (!groups.has(group)) groups.set(group, []);
     groups.get(group).push(def);
@@ -1589,7 +1622,7 @@ function catalogOptions() {
   let html = `<option value="">— Choisir —</option>`;
   for (const [group, defs] of groups.entries()) {
     html += `<optgroup label="${esc(group)}">`;
-    for (const d of defs) html += `<option value="${esc(d.key)}">${esc(d.name)}</option>`;
+    for (const d of defs) html += `<option value="${esc(d.key)}">${esc(d.name)}${d.legacyUnmapped?" [historique à rapprocher]":d.catalogue?.visible_au_stock_standard===false?" [réservé — manuel]":""}</option>`;
     html += `</optgroup>`;
   }
   return html;
@@ -1597,7 +1630,7 @@ function catalogOptions() {
 
 function originOptions() {
   const origins = new Map();
-  for (const d of CATALOG.values()) origins.set(d.originKey, d.origin);
+  for (const d of stockEligibleDefinitions()) origins.set(d.originKey, d.origin);
 
   let html = `<option value="caravanes-libres">Caravanes Libres</option>`;
   html += `<option value="*">Tout le catalogue</option>`;
@@ -1612,11 +1645,12 @@ async function openBuilder() {
   if (!game.user?.isGM) return notify("warn","H0D Equipment Builder est réservé au MJ.");
 
   const state = templateState();
+  const catalogData=effectiveDefinitions();
   const stats = {
-    weapon:Array.from(CATALOG.values()).filter(x=>x.kind==="weapon").length,
-    armor:Array.from(CATALOG.values()).filter(x=>x.kind==="armor").length,
-    object:Array.from(CATALOG.values()).filter(x=>x.kind==="object").length,
-    resource:Array.from(CATALOG.values()).filter(x=>x.kind==="resource").length
+    weapon:catalogData.filter(x=>x.kind==="weapon").length,
+    armor:catalogData.filter(x=>x.kind==="armor").length,
+    object:catalogData.filter(x=>x.kind==="object").length,
+    resource:catalogData.filter(x=>x.kind==="resource").length
   };
 
   await foundry.applications.api.DialogV2.wait({
@@ -1626,7 +1660,7 @@ async function openBuilder() {
         <h2>H0D Equipment Builder <small>v${MODULE_VERSION}</small></h2>
         <p><strong>Templates :</strong> ${state.ok ? "✅" : "❌"} ${esc(state.message)}</p>
         <p>
-          <strong>Catalogue actuel :</strong> ${CATALOG.size} références —
+          <strong>Référentiel :</strong> ${catalogData.length} références —
           ${stats.weapon} armes · ${stats.armor} protections · ${stats.object} objets · ${stats.resource} ressources.
         </p>
 
@@ -1684,8 +1718,8 @@ async function openBuilder() {
         </div>
 
         <p style="opacity:.75">
-          v0.1.0 : catalogue de départ basé uniquement sur l’équipement déjà validé des profils de factions Menace 1.
-          Les paliers d’amélioration, prototypes et équipements ECHO seront ajoutés plus tard.
+          Source : ${h0dCatalogueApi()?"H0D Catalogue canonique ; anciennes références non rapprochées conservées":"catalogue historique local ; H0D Catalogue non activé"}.
+          Les stocks aléatoires excluent les articles réservés et les plans incomplets.
         </p>
         <button type="button" data-h0d-run><i class="fa-solid fa-screwdriver-wrench"></i> Générer</button>
         <p data-h0d-status role="status" aria-live="polite" style="min-height:1.2em;margin:0;opacity:.8">Tu peux créer plusieurs équipements sans fermer cette fenêtre.</p>
@@ -1788,6 +1822,8 @@ Hooks.once("ready", async () => {
     registerDefinitions,
     getDefinition,
     getReferenceCatalog,
+    getStandardStockDefinitions:stockEligibleDefinitions,
+    catalogueBridgeStatus,
     getValidationReferences,
     catalog:CATALOG,
     templateState,

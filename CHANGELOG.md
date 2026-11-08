@@ -1,3 +1,9 @@
+## v0.2.0 — H0D Catalogue référence unique
+- Lecture canonique prioritaire, catalogue de stock exclusivement standard et non réservé.
+- Conservation séparée des 33 clés historiques non harmonisées.
+- Barrières pour les plans incomplets, consultation et diagnostic des références.
+- Tests du pont via environnement simulé, sans migration de fiches existantes.
+
 ## 0.1.1 — Équipement en série
 
 - Fenêtre persistante ; plusieurs objets, ressources, stocks et catalogues dans une session.

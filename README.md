@@ -1,3 +1,15 @@
+# H0D Equipment Builder v0.2.0 — Lecture du Catalogue canonique
+
+**H0D Catalogue v0.1.7 devient la source de vérité** pour les équipements publiés. Le Builder est un générateur d'Items, pas un deuxième référentiel.
+
+- Les définitions de même clé sont toujours lues dans H0D Catalogue en premier, même si une ancienne définition locale existe.
+- Les stocks aléatoires proviennent uniquement de `getStockEligibleDefinitions()` lorsque le Catalogue est actif : jamais de prototype incomplet, article réservé ou entrée historique non rapprochée.
+- Les **33 références historiques** du Builder n'ont actuellement aucune clé commune avec les 199 références canoniques. Elles restent utilisables individuellement, identifiées comme **historiques à rapprocher**, sans être assimilées arbitrairement à d'autres armes/armures.
+- `getReferenceCatalog()` expose le Catalogue et les entrées historiques distinctes, `getStandardStockDefinitions()` expose uniquement les articles autorisés. `catalogueBridgeStatus()` rend vérifiable cette séparation.
+- Les actions de création / mise à jour / recréation existantes ne sont pas déclenchées automatiquement. La création d'un plan avec `pret_pour_builder:false` est refusée.
+- Si H0D Catalogue n'est pas actif, l'ancien catalogue local reste disponible comme **secours explicite**. Activer le Catalogue pour une utilisation canonique.
+- Aucun ancien Item ni Actor, stock de marchand ou inventaire de PJ n'est migré ou modifié lors du chargement.
+
 # H0D Equipment Builder
 
 ## v0.1.1 — Génération répétée sans fermer le Builder
