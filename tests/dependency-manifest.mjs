@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const m=JSON.parse(readFileSync(new URL("../module.json",import.meta.url),"utf8"));
 assert.equal(m.id,"h0d-equipment-builder");
-assert.equal(m.version,"0.2.4");
+assert.equal(m.version,"0.2.5");
 assert.ok(!Object.hasOwn(m.relationships,"modules"));
 const dep=m.relationships.requires?.filter(x=>x.id==="h0d-template-manager");
 assert.equal(dep?.length,1);

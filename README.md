@@ -1,3 +1,9 @@
+## v0.2.5 — Arc d'Helix : portée 15 m
+
+Le MJ confirme une portée de **15 m pour l'arc d'Helix** et avait indiqué que l'arc court historique devait reprendre sa portée. L'**arc court** passe à 15 m et devient générable manuellement, mais reste une référence historique indépendante : aucun autre champ n'est copié ou fusionné.
+
+L'arbalète légère reste bloquée : sa portée devra se situer entre l'arc court (15 m) et l'arc long (portée non confirmée). Le pistolet ancien faible reste mis de côté. Aucun Item existant n'est migré automatiquement.
+
 ## v0.2.4 — Portées des armes historiques (décisions MJ)
 
 - Fronde historique du Culte du Renouveau : portée **9 m**, reprise uniquement du champ `H0D_Arme_Portee` de la **Fronde de chasse** (`fronde-de-chasse`) du H0D Catalogue. Ceci ne fusionne **pas** les deux armes : dégâts, munitions, coût et identité restent propres à leur source respective.

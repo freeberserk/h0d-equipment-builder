@@ -1,3 +1,10 @@
+## 0.2.5 — Arc court d'Helix à 15 m
+
+- Arc court historique : portée 15 m confirmée par le MJ, génération manuelle débloquée sans fusion de profils.
+- Arbalète légère : borne arc court de 15 m documentée ; portée définitive encore inconnue, génération bloquée.
+- Pistolet ancien faible : toujours mis de côté et bloqué.
+- Aucune migration des Items de Foundry.
+
 ## 0.2.4 — Portée de la fronde et décisions de mise en attente
 
 - Fronde historique : portée corrigée à 9 m à partir de la Fronde de chasse validée du Catalogue (portée uniquement), autorisée en génération manuelle avec avertissement historique.

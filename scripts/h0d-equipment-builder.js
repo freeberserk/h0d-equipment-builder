@@ -1,6 +1,6 @@
 import {ensureManagedLauncherMacro} from "./h0d-launcher-macro.js";
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.2.4";
+const MODULE_VERSION = "0.2.5";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -69,13 +69,13 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance. Critère MJ : portée entre celle de l'arc court et celle de l'arc long ; valeur chiffrée non validée."
+      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance. Critère MJ : entre arc court (15 m, Helix) et arc long (valeur inconnue) ; valeur de l'arbalète non validée."
     },
     "legacyValidation": {
       "blocked": true,
       "field": "H0D_Arme_Portee",
       "status": "arbitrage_bornes_arc_court_long",
-      "reason": "L'arbalète légère doit avoir une portée située entre l'arc court et l'arc long (critère MJ) ; valeurs exactes des arcs non vérifiées dans les sources accessibles."
+      "reason": "Portée de l'arbalète à situer entre l'arc court (15 m confirmés pour Helix) et l'arc long (valeur encore inconnue)."
     }
   },
   {
@@ -1161,7 +1161,7 @@ const STARTER_CATALOG = [
       "H0D_Arme_Degats": "1d6+1",
       "H0D_Arme_Bonus_Degats": "0",
       "H0D_Arme_Type_Degats": "Perforant",
-      "H0D_Arme_Portee": "0",
+      "H0D_Arme_Portee": "15",
       "H0D_Arme_Mains": "1",
       "H0D_Arme_Critique_Seuil": "20",
       "H0D_Arme_Critique_Multiplicateur": "2",
@@ -1181,13 +1181,14 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Hache de ferraille / arc court. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance. Portée à reporter depuis la fiche Helix, non accessible dans le référentiel GitHub contrôlé."
+      "H0D_Arme_Notes": "Attaque principale du profil : Hache de ferraille / arc court. Portée 15 m confirmée par le MJ pour l'arc d'Helix, reprise sur cet arc court. Les autres champs historiques restent à valider, aucune équivalence complète avec Helix n'est présumée."
     },
     "legacyValidation": {
-      "blocked": true,
+      "blocked": false,
       "field": "H0D_Arme_Portee",
-      "status": "attente_reference_helix",
-      "reason": "La portée de l'arc court est indiquée comme déjà définie sur Helix par le MJ ; sa valeur n'a pas été vérifiée dans les sources GitHub du projet."
+      "status": "portee_confirmee_mj_helix",
+      "source": "MJ - arc Helix : 15 m",
+      "scope": "portée uniquement"
     }
   },
   {
