@@ -1,3 +1,10 @@
+## 0.2.3 — Portées et boucliers historiques
+
+- Arc tribal : portée de 12 m validée ; bouclier léger : +1 Défense et une main occupée (description).
+- Quatre autres armes de tir anciennes, dépourvues de portée fiable, signalées comme non validées et bloquées à la génération ; pas d'équivalence avec le Catalogue sans validation.
+- Entrées historiques visibles et séparées du Catalogue canonique, mais jamais proposées aux stocks aléatoires sans source canonique active.
+- Aucune écriture sur les Items existants au chargement. Test de non-régression ajouté.
+
 ## 0.2.2 — Protéger les macros personnalisées (P1)
 - Identifier explicitement le lanceur officiel par flag et enregistrer la commande générée.
 - Préserver les commandes personnalisées et les macros en conflit de nom ; ne jamais réécrire sur la base du nom seul.

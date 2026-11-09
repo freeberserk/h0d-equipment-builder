@@ -1,6 +1,6 @@
 import {ensureManagedLauncherMacro} from "./h0d-launcher-macro.js";
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.2.2";
+const MODULE_VERSION = "0.2.3";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -69,7 +69,13 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau."
+      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance."
+    },
+    "legacyValidation": {
+      "blocked": true,
+      "field": "H0D_Arme_Portee",
+      "status": "portee_inconnue",
+      "reason": "Portée non chiffrée par les références historiques ni validée comme équivalente à une définition du Catalogue."
     }
   },
   {
@@ -207,7 +213,7 @@ const STARTER_CATALOG = [
       "H0D_Arme_Degats": "1d6",
       "H0D_Arme_Bonus_Degats": "0",
       "H0D_Arme_Type_Degats": "Perforant",
-      "H0D_Arme_Portee": "0",
+      "H0D_Arme_Portee": "12",
       "H0D_Arme_Mains": "1",
       "H0D_Arme_Critique_Seuil": "20",
       "H0D_Arme_Critique_Multiplicateur": "2",
@@ -227,7 +233,7 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Arc / lance courte."
+      "H0D_Arme_Notes": "Attaque principale du profil : Arc / lance courte. Portée 12 m confirmée par la décision de campagne / audit Catalogue du 08.11.2026. Autres champs historiques non harmonisés."
     }
   },
   {
@@ -418,7 +424,13 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Dague / fronde."
+      "H0D_Arme_Notes": "Attaque principale du profil : Dague / fronde. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance."
+    },
+    "legacyValidation": {
+      "blocked": true,
+      "field": "H0D_Arme_Portee",
+      "status": "portee_inconnue",
+      "reason": "Portée non chiffrée par les références historiques ni validée comme équivalente à une définition du Catalogue."
     }
   },
   {
@@ -568,7 +580,13 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale : Lame blanche / pistolet ancien faible."
+      "H0D_Arme_Notes": "Attaque principale : Lame blanche / pistolet ancien faible. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance."
+    },
+    "legacyValidation": {
+      "blocked": true,
+      "field": "H0D_Arme_Portee",
+      "status": "portee_inconnue",
+      "reason": "Portée non chiffrée par les références historiques ni validée comme équivalente à une définition du Catalogue."
     }
   },
   {
@@ -1031,7 +1049,7 @@ const STARTER_CATALOG = [
       "H0D_Armure_Type": "bouclier",
       "H0D_Armure_Zone": "corps",
       "H0D_Armure_Active": true,
-      "H0D_Armure_Bonus_Defense": "0",
+      "H0D_Armure_Bonus_Defense": "1",
       "H0D_Armure_Encombrement": "0",
       "H0D_Armure_Malus": "",
       "H0D_Stockage": "PJ",
@@ -1042,7 +1060,7 @@ const STARTER_CATALOG = [
       "H0D_Armure_Resistance_Acide": "0",
       "H0D_Armure_Etat": "",
       "H0D_Armure_Origine": "Héritiers du Soleil",
-      "H0D_Armure_Description": "Bouclier léger de l'Aspirant solaire. Aucun bonus distinct n'est chiffré dans la source.",
+      "H0D_Armure_Description": "Bouclier léger de l'Aspirant solaire. Règle maison validée : +1 Défense, occupe une main. Les autres valeurs (encombrement, prix) ne sont pas confirmées par les fiches sources.",
       "H0D_Armure_Traits_Table": {}
     }
   },
@@ -1162,7 +1180,13 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Hache de ferraille / arc court."
+      "H0D_Arme_Notes": "Attaque principale du profil : Hache de ferraille / arc court. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance."
+    },
+    "legacyValidation": {
+      "blocked": true,
+      "field": "H0D_Arme_Portee",
+      "status": "portee_inconnue",
+      "reason": "Portée non chiffrée par les références historiques ni validée comme équivalente à une définition du Catalogue."
     }
   },
   {
@@ -1357,7 +1381,7 @@ function h0dCatalogueApi(){
 }
 function effectiveDefinitions({includeLegacy=true,includeRestricted=true}={}){
   const api=h0dCatalogueApi();
-  if(!api)return Array.from(CATALOG.values()).map(clone);
+  if(!api)return Array.from(CATALOG.values()).map(d=>({...clone(d),legacyUnmapped:true}));
   const canonical=api.getDefinitions({includeRestricted});
   if(!includeLegacy)return canonical;
   const keys=new Set(canonical.map(d=>d.key));
@@ -1368,8 +1392,10 @@ function stockEligibleDefinitions(){
   const api=h0dCatalogueApi();
   return api?(api.getStockEligibleDefinitions?.()??api.getDefinitions({includeRestricted:false}).filter(d=>
     d.catalogue?.visible_au_stock_standard===true&&d.catalogue?.generable_stock_aleatoire!==false&&d.catalogue?.pret_pour_builder!==false)):
-    Array.from(CATALOG.values()).filter(d=>d.catalogue?.visible_au_stock_standard!==false
-      &&d.catalogue?.pret_pour_builder!==false&&d.catalogue?.generable_stock_aleatoire!==false).map(clone);
+    // Aucune des 33 références historiques n’a de politique de stock validée.
+    // Sans le Catalogue canonique, ne pas produire aléatoirement ces équipements incomplets.
+    Array.from(CATALOG.values()).filter(d=>d.catalogue?.visible_au_stock_standard===true
+      &&d.catalogue?.pret_pour_builder===true&&d.catalogue?.generable_stock_aleatoire===true).map(clone);
 }
 function catalogueBridgeStatus(){
   const api=h0dCatalogueApi();
@@ -1383,7 +1409,7 @@ function getDefinition(key) {
   const canonical=h0dCatalogueApi()?.getDefinition(key);
   if(canonical)return canonical;
   const local=CATALOG.get(key);
-  return local?clone(local):null;
+  return local?{...clone(local),legacyUnmapped:true}:null;
 }
 function getReferenceCatalog(){return effectiveDefinitions();}
 
@@ -1396,6 +1422,8 @@ function getValidationReferences() {
     templateKey:d.templateKey,
     origin:d.origin,
     expectedProps:clone(d.props),
+    legacyUnmapped:d.legacyUnmapped===true,
+    legacyValidation:clone(d.legacyValidation??null),
     source:d.source,
     tier:d.tier
   }));
@@ -1466,7 +1494,9 @@ async function buildReferenceItem(key, {mode="update"}={}) {
 
   const def = getDefinition(key);
   if (!def) throw new Error(`Équipement inconnu : ${key}`);
+  if(def.legacyValidation?.blocked===true)throw new Error(`Équipement historique ${key} : ${def.legacyValidation.reason}`);
   if(def.catalogue?.pret_pour_builder===false)throw new Error(`Plan non finalisé dans H0D Catalogue : ${key}`);
+  if(def.legacyUnmapped===true)notify("warn",`${def.name} : référence historique non rapprochée du Catalogue ; vérifier prix et champs non documentés avant utilisation.`);
 
   const root = await ensureItemFolder(ROOT_FOLDER);
   const kindFolder = await ensureItemFolder(KIND_LABELS[def.kind] || "Autres", root.id);
@@ -1623,7 +1653,7 @@ function catalogOptions() {
   let html = `<option value="">— Choisir —</option>`;
   for (const [group, defs] of groups.entries()) {
     html += `<optgroup label="${esc(group)}">`;
-    for (const d of defs) html += `<option value="${esc(d.key)}">${esc(d.name)}${d.legacyUnmapped?" [historique à rapprocher]":d.catalogue?.visible_au_stock_standard===false?" [réservé — manuel]":""}</option>`;
+    for (const d of defs) html += `<option value="${esc(d.key)}">${esc(d.name)}${d.legacyValidation?.blocked?" [portée inconnue — non générable]":d.legacyUnmapped?" [historique à rapprocher]":d.catalogue?.visible_au_stock_standard===false?" [réservé — manuel]":""}</option>`;
     html += `</optgroup>`;
   }
   return html;

@@ -16,6 +16,7 @@ jobs:
           node --check scripts/h0d-equipment-builder.js
           node tests/batch-dialog.mjs
           node tests/catalogue-authority.mjs
+          node tests/historical-equipment.mjs
           node tests/dependency-manifest.mjs
           node --check scripts/h0d-launcher-macro.js
           node tests/launcher-macro.test.mjs

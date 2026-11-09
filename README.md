@@ -1,3 +1,14 @@
+## v0.2.3 — Harmonisation des références historiques
+
+Le catalogue canonique H0D demeure la seule source d'autorité pour les références possédant une définition validée. Les 33 entrées historiques distinctes ne sont **pas fusionnées par similarité de nom**, ni considérées comme prêtes à une publication canonique.
+
+- **Arc tribal : portée 12 m**, confirmée par les décisions de campagne consignées dans l'audit H0D Catalogue du 8 novembre 2026.
+- **Bouclier léger : +1 Défense**, occupe une main, suivant la règle maison validée. Le prix et l'encombrement non documentés ne sont pas inventés.
+- **Arbalète légère, Fronde, Pistolet ancien faible et Arc court : portée toujours non définie.** Les anciennes valeurs techniques `0` demeurent dans les données historiques mais portent un avertissement explicite et **leur génération est bloquée** tant que le MJ n'a pas validé les portées. Les anciennes fiches Foundry existantes ne sont pas modifiées.
+- En absence de H0D Catalogue actif, **aucune des 33 références historiques n'est utilisée en stock aléatoire**, puisque leur politique de disponibilité / de prix n'a pas été validée. Elles restent consultables via l'API et les autres entrées historiques peuvent être créées manuellement avec avertissement.
+- Les `19` plans non prêts déjà protégés par H0D Catalogue restent interdits de création. Pas de coût, de portée ou de bonus d'armure inventé.
+- Les changements sont appliqués aux **nouvelles générations et aux mises à jour explicitement demandées**, sans migration automatique de PJ, marchands, Actors ou Items existants.
+
 ## v0.2.2 — Macros de lancement personnalisées protégées
 
 La macro du Générateur équipement est identifiée par `flags.h0d-equipment-builder.launcher`. Seules les macros marquées et encore identiques au dernier code généré sont actualisées. Une macro personnalisée de même nom reste intacte et un lanceur séparé « (module officiel) » peut être créé. Les anciennes macros sont reconnues seulement sur une correspondance exacte de nom, type, portée et commande.
