@@ -1,6 +1,6 @@
 import {ensureManagedLauncherMacro} from "./h0d-launcher-macro.js";
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.2.5";
+const MODULE_VERSION = "0.2.6";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -49,7 +49,7 @@ const STARTER_CATALOG = [
       "H0D_Arme_Degats": "1d6",
       "H0D_Arme_Bonus_Degats": "0",
       "H0D_Arme_Type_Degats": "Perforant",
-      "H0D_Arme_Portee": "0",
+      "H0D_Arme_Portee": "20",
       "H0D_Arme_Mains": "1",
       "H0D_Arme_Critique_Seuil": "20",
       "H0D_Arme_Critique_Multiplicateur": "2",
@@ -69,13 +69,14 @@ const STARTER_CATALOG = [
       "H0D_Arme_Cout": "",
       "H0D_Arme_Traits_Table": {},
       "H0D_Arme_Effet_Special": "",
-      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau. ⚠ PORTÉE INCONNUE : 0 = champ historique non renseigné, pas portée zéro en jeu. Génération bloquée jusqu'à validation MJ. Ne pas substituer une arme du Catalogue par simple ressemblance. Critère MJ : entre arc court (15 m, Helix) et arc long (valeur inconnue) ; valeur de l'arbalète non validée."
+      "H0D_Arme_Notes": "Attaque principale du profil : Arbalète légère / couteau. Portée 20 m validée par le MJ, entre l'arc court de 15 m et l'arc long de 25 m. Aucune autre caractéristique n'a été modifiée ; vérifier les champs historiques non documentés avant usage."
     },
     "legacyValidation": {
-      "blocked": true,
+      "blocked": false,
       "field": "H0D_Arme_Portee",
-      "status": "arbitrage_bornes_arc_court_long",
-      "reason": "Portée de l'arbalète à situer entre l'arc court (15 m confirmés pour Helix) et l'arc long (valeur encore inconnue)."
+      "status": "portee_confirmee_mj",
+      "source": "MJ : arc court 15 m ; arbalète légère 20 m ; arc long 25 m",
+      "scope": "portée uniquement"
     }
   },
   {

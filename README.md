@@ -1,3 +1,14 @@
+## v0.2.6 — Portée de l'arbalète légère
+
+Portées d'armes retenues par le MJ :
+- Arc court d'Helix : **15 m**.
+- Arbalète légère historique des Caravanes Libres : **20 m**.
+- Arc long : **25 m** (référence comparative transmise par le MJ, sans créer de nouvelle fiche d'arc long).
+
+Seul le champ `H0D_Arme_Portee` de l'arbalète légère a été corrigé : passage de la valeur historique vide `0` à `20`. La génération manuelle de cette référence est débloquée, tout en conservant l'avertissement sur les autres champs historiques non rapprochés du Catalogue. Le pistolet ancien faible demeure **mis de côté et non générable**.
+
+Aucune migration automatique des Items, Actors, inventaires ou stocks existants. Les 33 références historiques restent distinctes des références canoniques, et l'inclusion en stock aléatoire nécessite toujours une politique Catalogue validée.
+
 ## v0.2.5 — Arc d'Helix : portée 15 m
 
 Le MJ confirme une portée de **15 m pour l'arc d'Helix** et avait indiqué que l'arc court historique devait reprendre sa portée. L'**arc court** passe à 15 m et devient générable manuellement, mais reste une référence historique indépendante : aucun autre champ n'est copié ou fusionné.

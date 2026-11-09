@@ -1,3 +1,10 @@
+## 0.2.6 — Arbalète légère : portée 20 m
+
+- Applique la portée **20 m** validée par le MJ pour l'arbalète légère, entre les arcs court (15 m) et long (25 m).
+- Débloque la génération manuelle de l'arbalète légère, sans changer ses dégâts, son origine ni ses autres champs historiques.
+- Conserve le pistolet ancien faible parmi les références historiques mises de côté et non générables.
+- Actualise les tests de cohérence et de version du manifeste ; aucune migration automatique Foundry.
+
 ## 0.2.5 — Arc court d'Helix à 15 m
 
 - Arc court historique : portée 15 m confirmée par le MJ, génération manuelle débloquée sans fusion de profils.
