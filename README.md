@@ -1,3 +1,7 @@
+## v0.2.2 — Macros de lancement personnalisées protégées
+
+La macro du Générateur équipement est identifiée par `flags.h0d-equipment-builder.launcher`. Seules les macros marquées et encore identiques au dernier code généré sont actualisées. Une macro personnalisée de même nom reste intacte et un lanceur séparé « (module officiel) » peut être créé. Les anciennes macros sont reconnues seulement sur une correspondance exacte de nom, type, portée et commande.
+
 # H0D Equipment Builder v0.2.0 — Lecture du Catalogue canonique
 
 **H0D Catalogue v0.1.7 devient la source de vérité** pour les équipements publiés. Le Builder est un générateur d'Items, pas un deuxième référentiel.
