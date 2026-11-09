@@ -1,3 +1,10 @@
+## v0.2.7 — Catalogue, unique source d'équipement
+
+- Toutes les créations consultent les définitions de **H0D Catalogue** à la demande. Aucun repli vers les 33 références historiques locales et aucune copie concurrente ; si le Catalogue n'est pas prêt, la création est refusée.
+- Les 33 références historiques ne sont plus embarquées dans le code actif : elles restent dans l'historique Git et l'audit de rapprochement, en attendant une validation MJ avant intégration éventuelle au Catalogue.
+- Les Items déjà créés (monde, compendiums, inventaires) restent intacts. `registerDefinition` demeure disponible uniquement pour les clés déjà présentes dans le Catalogue.
+- Mettre à jour **H0D Catalogue puis Equipment Builder** avant de créer de nouveaux articles.
+
 ## v0.2.6 — Portée de l'arbalète légère
 
 Portées d'armes retenues par le MJ :
