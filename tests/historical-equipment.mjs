@@ -25,7 +25,7 @@ assert.equal(run('stockEligibleDefinitions().length'),0,"Sans Catalogue, aucune 
 assert.equal(run('getValidationReferences().filter(x=>x.legacyValidation?.blocked).length'),3);
 run("templateState = ()=>({ok:true})");
 for(const key of unresolved){
-  await assert.rejects(run(`buildReferenceItem("${key}")`),/Portée non chiffrée/);
+  await assert.rejects(run(`buildReferenceItem("${key}")`),/Équipement historique/);
 }
 assert.equal(run('getDefinition("arbalete-legere").legacyValidation.status'),"arbitrage_bornes_arc_court_long");
 assert.equal(run('getDefinition("pistolet-ancien-faible").legacyValidation.status'),"mis_de_cote_par_mj");
