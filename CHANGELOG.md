@@ -1,3 +1,9 @@
+## 0.2.7 — H0D Catalogue source unique
+
+- Retrait du fallback des 33 références historiques, préservées uniquement dans l'historique Git.
+- Toutes les créations lisent le Catalogue en direct, et échouent explicitement si indisponible.
+- Dépendance H0D Catalogue obligatoire ; aucune migration destructive des inventaires.
+
 ## 0.2.6 — Arbalète légère : portée 20 m
 
 - Applique la portée **20 m** validée par le MJ pour l'arbalète légère, entre les arcs court (15 m) et long (25 m).
