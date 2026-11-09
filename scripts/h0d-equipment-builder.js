@@ -1,5 +1,6 @@
+import {ensureManagedLauncherMacro} from "./h0d-launcher-macro.js";
 const MODULE_ID = "h0d-equipment-builder";
-const MODULE_VERSION = "0.2.1";
+const MODULE_VERSION = "0.2.2";
 const ROOT_FOLDER = "H0D — Équipement généré";
 const STOCK_ROOT_FOLDER = "H0D — Stocks générés";
 const REFERENCE_FOLDER = "H0D — Catalogue de validation";
@@ -1788,28 +1789,13 @@ async function openBuilder() {
 }
 
 async function ensureLauncherMacro() {
-  if (!game.user?.isGM) return;
-  const name = "H0D — Générateur équipement";
-  const command = "game.h0dEquipmentBuilder.open();";
-  let macro = game.macros?.getName(name);
-
-  if (macro) {
-    const updates = {};
-    if (macro.command !== command) updates.command = command;
-    if (macro.type !== "script") updates.type = "script";
-    if (Object.keys(updates).length) await macro.update(updates);
-    return;
-  }
-
-  await Macro.create({
-    name,
-    type:"script",
-    scope:"global",
+  return ensureManagedLauncherMacro({
+    moduleId:MODULE_ID,
+    name:"H0D — Générateur équipement",
+    command:"game.h0dEquipmentBuilder.open();",
     img:"icons/svg/chest.svg",
-    command
+    notify:notify
   });
-
-  notify("info", `${MODULE_ID} : macro de lancement créée.`);
 }
 
 Hooks.once("ready", async () => {
