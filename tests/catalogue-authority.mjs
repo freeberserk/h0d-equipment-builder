@@ -22,7 +22,7 @@ const ctx={foundry:{utils:{deepClone:structuredClone}},
  game:{modules:new Map([["h0d-catalogue",{active:true,api}]])},
  Hooks:{once:()=>{}},console};
 ctx.globalThis=ctx;vm.createContext(ctx);
-vm.runInContext(source,ctx);
+vm.runInContext(source.replace(/^import[^\n]*\n/gm,""),ctx);
 const run=expr=>vm.runInContext(expr,ctx);
 assert.equal(run('getDefinition("couteau-de-depecage").name'),"Couteau canonique");
 assert.equal(run('getDefinition("arc-tribal").key'),"arc-tribal","Ancien objet toujours accessible en mode manuel.");
