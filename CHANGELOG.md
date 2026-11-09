@@ -1,3 +1,8 @@
+## 0.2.1 — Correction des dépendances Foundry VTT 14
+- Déclare H0D Template Manager dans `relationships.requires` avec son manifeste officiel et la version minimale `0.3.0` déjà exigée.
+- Conserve la déclaration CSB, les caractéristiques et les Items existants.
+- Ajoute un test de manifeste pour prévenir les régressions.
+
 ## v0.2.0 — H0D Catalogue référence unique
 - Lecture canonique prioritaire, catalogue de stock exclusivement standard et non réservé.
 - Conservation séparée des 33 clés historiques non harmonisées.
