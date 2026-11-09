@@ -1,3 +1,11 @@
+## v0.2.4 — Portées des armes historiques (décisions MJ)
+
+- Fronde historique du Culte du Renouveau : portée **9 m**, reprise uniquement du champ `H0D_Arme_Portee` de la **Fronde de chasse** (`fronde-de-chasse`) du H0D Catalogue. Ceci ne fusionne **pas** les deux armes : dégâts, munitions, coût et identité restent propres à leur source respective.
+- Arbalète légère : critère MJ **entre la portée de l'arc court et celle de l'arc long**. Sans valeurs vérifiées pour les deux bornes, la portée historique reste non renseignée et la génération reste bloquée.
+- Arc court : valeur donnée par le MJ comme déjà définie sur **Helix**. Faute d'accès vérifié à cette fiche, aucune portée chiffrée n'est copiée ; import bloqué jusqu'à récupération de la valeur.
+- Pistolet ancien faible : **mis de côté**, conservé dans les 33 références historiques et bloqué en génération ; pas de suppression ni d'invention de statistiques.
+- Les 33 historiques restent distincts des références canoniques. Aucune migration d'Item, d'Actor, d'inventaire ou de stock Foundry n'est réalisée automatiquement.
+
 ## v0.2.3 — Harmonisation des références historiques
 
 Le catalogue canonique H0D demeure la seule source d'autorité pour les références possédant une définition validée. Les 33 entrées historiques distinctes ne sont **pas fusionnées par similarité de nom**, ni considérées comme prêtes à une publication canonique.

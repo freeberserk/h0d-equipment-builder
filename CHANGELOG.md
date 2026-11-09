@@ -1,3 +1,11 @@
+## 0.2.4 — Portée de la fronde et décisions de mise en attente
+
+- Fronde historique : portée corrigée à 9 m à partir de la Fronde de chasse validée du Catalogue (portée uniquement), autorisée en génération manuelle avec avertissement historique.
+- Arbalète légère : encadrement arc court / arc long consigné, sans valeur inventée ; génération toujours bloquée.
+- Arc court : lien à la valeur déjà définie sur Helix noté, sans valeur copiée faute de source vérifiée ; génération toujours bloquée.
+- Pistolet ancien faible : mis de côté sans suppression, toujours bloqué en génération.
+- Tests adaptés et protection des données Foundry conservée.
+
 ## 0.2.3 — Portées et boucliers historiques
 
 - Arc tribal : portée de 12 m validée ; bouclier léger : +1 Défense et une main occupée (description).

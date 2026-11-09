@@ -9,7 +9,11 @@ const run=x=>vm.runInContext(x,ctx);
 assert.equal(run('getDefinition("arc-tribal").props.H0D_Arme_Portee'),"12");
 assert.equal(run('getDefinition("bouclier-leger").props.H0D_Armure_Bonus_Defense'),"1");
 assert.match(run('getDefinition("bouclier-leger").props.H0D_Armure_Description'),/occupe une main/);
-const unresolved=["arbalete-legere","fronde","pistolet-ancien-faible","arc-court"];
+assert.equal(run('getDefinition("fronde").props.H0D_Arme_Portee'),"9");
+assert.equal(run('getDefinition("fronde").legacyValidation.blocked'),false);
+assert.equal(run('getDefinition("fronde").legacyValidation.source'),"H0D Catalogue:fronde-de-chasse");
+assert.match(run('getDefinition("fronde").props.H0D_Arme_Notes'),/sans équivalence totale/);
+const unresolved=["arbalete-legere","pistolet-ancien-faible","arc-court"];
 for(const key of unresolved){
   assert.equal(run(`getDefinition("${key}").props.H0D_Arme_Portee`),"0",key+" : ne pas inventer de portée");
   assert.equal(run(`getDefinition("${key}").legacyValidation.blocked`),true,key+" : génération bloquée");
@@ -18,9 +22,12 @@ for(const key of unresolved){
 assert.equal(run('getReferenceCatalog().length'),33,"Les 33 historiques restent consultables");
 assert.equal(run('getReferenceCatalog().filter(x=>x.legacyUnmapped).length'),33,"Ne jamais assimiler par le nom");
 assert.equal(run('stockEligibleDefinitions().length'),0,"Sans Catalogue, aucune ancienne référence ne va dans les stocks aléatoires");
-assert.equal(run('getValidationReferences().filter(x=>x.legacyValidation?.blocked).length'),4);
+assert.equal(run('getValidationReferences().filter(x=>x.legacyValidation?.blocked).length'),3);
 run("templateState = ()=>({ok:true})");
 for(const key of unresolved){
   await assert.rejects(run(`buildReferenceItem("${key}")`),/Portée non chiffrée/);
 }
-console.log("Équipement H0D : arc 12 m, bouclier +1, 4 portées inconnues bloquées, aucun stock arbitraire.");
+assert.equal(run('getDefinition("arbalete-legere").legacyValidation.status'),"arbitrage_bornes_arc_court_long");
+assert.equal(run('getDefinition("pistolet-ancien-faible").legacyValidation.status'),"mis_de_cote_par_mj");
+assert.equal(run('getDefinition("arc-court").legacyValidation.status'),"attente_reference_helix");
+console.log("Équipement H0D : fronde à 9 m, trois autres portées en attente, aucun stock arbitraire.");
