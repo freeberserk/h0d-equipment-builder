@@ -1,3 +1,10 @@
+## 0.2.2 — Protéger les macros personnalisées (P1)
+- Identifier explicitement le lanceur officiel par flag et enregistrer la commande générée.
+- Préserver les commandes personnalisées et les macros en conflit de nom ; ne jamais réécrire sur la base du nom seul.
+- Adopter les anciens lanceurs uniquement sur correspondance exacte, sans modifier leur contenu.
+- Tests automatisés de création, adoption, personnalisation, renommage et collision.
+- Validation en Foundry v14 à effectuer.
+
 ## 0.2.1 — Correction des dépendances Foundry VTT 14
 - Déclare H0D Template Manager dans `relationships.requires` avec son manifeste officiel et la version minimale `0.3.0` déjà exigée.
 - Conserve la déclaration CSB, les caractéristiques et les Items existants.
