@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+const s=readFileSync(new URL("../scripts/h0d-equipment-builder.js",import.meta.url),"utf8");
+const creation=s.slice(s.indexOf("function itemCreateData("),s.indexOf("async function applyDefinition("));
+assert.ok(creation.includes('visuels?.pickForBuilder?.({kind:"equipment",key:def.key,mode:"random"})'));
+assert.ok(creation.includes('const visualChoice=!img?'));
+assert.ok(creation.includes("img:img || visualImage || def.img"));
+assert.ok(creation.includes('source:"equipment-builder"'));
+const apply=s.slice(s.indexOf("async function applyDefinition("),s.indexOf("async function buildReferenceItem("));
+assert.ok(!apply.includes("img:"),"La mise à jour d'un Item ne remplace jamais son image.");
+console.log("OK — H0D Visuels Equipment facultatif, images existantes prioritaires.");
