@@ -141,11 +141,16 @@ function registerDefinitions(defs=[]){return defs.map(registerDefinition);}
 function itemCreateData(def, {folderId=null, img=null, stockId=null, copyIndex=null}={}) {
   const t = template(def.templateKey);
   if (!t) throw new Error(`Template canonique introuvable : ${def.templateKey}`);
+  // Attribuer une illustration uniquement lors d'une nouvelle création.
+  const visuels=game.h0dVisuels;
+  const visualChoice=!img?visuels?.pickForBuilder?.({kind:"equipment",key:def.key,mode:"random"})??null:null;
+  const visualPath=visualChoice?.portrait||visualChoice?.token||null;
+  const visualImage=visualPath?visuels.visualUrl(visualPath):null;
 
   return {
     name:def.name,
     type:"equippableItem",
-    img:img || def.img || t.img || "icons/svg/item-bag.svg",
+    img:img || visualImage || def.img || t.img || "icons/svg/item-bag.svg",
     folder:folderId,
     system:systemFromTemplate(t),
     flags:{
@@ -159,7 +164,8 @@ function itemCreateData(def, {folderId=null, img=null, stockId=null, copyIndex=n
         sourceTemplateId:t.id,
         stockId,
         copyIndex
-      }
+      },
+      ...(visualChoice?{"h0d-visuels":{selectedVariant:visualChoice.id,source:"equipment-builder"}}:{})
     }
   };
 }
