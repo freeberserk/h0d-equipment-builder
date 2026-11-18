@@ -1,3 +1,9 @@
+## H0D Visuels (intégration facultative en préparation)
+
+Pour un **nouvel Item** généré, H0D Equipment Builder peut récupérer une illustration auprès de `game.h0dVisuels`, catégorie `equipment`, avec `def.key` comme clé technique. Il utilise le portrait de la variante en priorité, puis son token éventuel comme image de secours. Sans H0D Visuels, il utilise les images prévues par H0D Catalogue ou les templates.
+
+Les Items existants, les images manuellement choisies et les inventaires ne sont pas modifiés par cette intégration. Les assets privés ne sont pas distribués dans ce dépôt.
+
 ## v0.2.7 — Catalogue, unique source d'équipement
 
 - Toutes les créations consultent les définitions de **H0D Catalogue** à la demande. Aucun repli vers les 33 références historiques locales et aucune copie concurrente ; si le Catalogue n'est pas prêt, la création est refusée.
